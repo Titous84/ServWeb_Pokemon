@@ -1,0 +1,119 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "API Pokémon",
+        "summary": "API pour gérer les Pokémon",
+        "description": "Cette API permet de gérer les données des Pokémon, y compris la récupération de listes paginées de Pokémon avec des filtres.",
+        "contact": {
+            "name": "Support API",
+            "url": "https://www.example.com/support",
+            "email": "support@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://api.pokemon.com",
+            "description": "Serveur de production"
+        },
+        {
+            "url": "http://localhost:10007",
+            "description": "Serveur de développement"
+        }
+    ],
+    "paths": {
+        "/api/pokemons/liste": {
+            "get": {
+                "description": "Récupérer une liste paginée de Pokémon",
+                "summary": "Liste paginée de Pokémon",
+                "tags": ["Pokémon"],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "description": "Le numéro de la page à récupérer",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "description": "Le type de Pokémon à filtrer",
+                        "schema": {
+                            "type": "string",
+                            "example": "grass"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PokemonList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PokemonList": {
+                "type": "object",
+                "properties": {
+                    "pokemons": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Pokemon"
+                        }
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "grass"
+                    },
+                    "nombrePokemonTotal": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "totalPage": {
+                        "type": "integer",
+                        "example": 2
+                    }
+                }
+            },
+            "Pokemon": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nom": {
+                        "type": "string",
+                        "example": "Bulbasaur"
+                    },
+                    "type_primaire": {
+                        "type": "string",
+                        "example": "grass"
+                    },
+                    "type_secondaire": {
+                        "type": "string",
+                        "example": "poison"
+                    }
+                }
+            }
+        }
+    }
+}
